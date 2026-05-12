@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://d0q1h5knwdm12"
+path="res://.godot/imported/dirt.png-6c346bb2bcaa159508567e09f302b2c3.image"
+
+[deps]
+
+source_file="res://images/tiles/dirt.png"
+dest_files=["res://.godot/imported/dirt.png-6c346bb2bcaa159508567e09f302b2c3.image"]
+
+[params]
+

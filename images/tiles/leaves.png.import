@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://d27d380ohhc7d"
+path="res://.godot/imported/leaves.png-c6c514ff35d8d9437fd75ad38a8bb2ca.image"
+
+[deps]
+
+source_file="res://images/tiles/leaves.png"
+dest_files=["res://.godot/imported/leaves.png-c6c514ff35d8d9437fd75ad38a8bb2ca.image"]
+
+[params]
+
