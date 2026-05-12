@@ -55,11 +55,9 @@ texture_region_size = Vector2i(4, 4)
 tile_size = Vector2i(4, 4)
 sources/0 = SubResource("TileSetAtlasSource_h2yge")
 
-[node name="Main" type="Node2D" unique_id=327471949 node_paths=PackedStringArray("OutputSprite")]
+[node name="Main" type="Node2D" unique_id=327471949]
 scale = Vector2(4, 4)
 script = ExtResource("1_0xm2m")
-Images = Array[Image]([])
-OutputSprite = NodePath("Output")
 
 [node name="Output" type="Sprite2D" parent="." unique_id=1949198710]
 position = Vector2(115.25, 68)

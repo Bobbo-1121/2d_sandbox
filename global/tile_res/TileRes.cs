@@ -25,13 +25,6 @@ public partial class TileRes : Node
     {
         return occupiedIds.Contains(id);
     }
-    public struct Tile
-    {
-        public string Id;
-        public string Name;
-        public int Variants;
-        public Vector2I TileSetPosition;
-    }
     [Export]
     public string _TileDataDirectory = "res://data/tiles";
     [Export]
@@ -71,7 +64,7 @@ public partial class TileRes : Node
         {
             FileAccess dataFile = FileAccess.Open(path, FileAccess.ModeFlags.Read);
             string jsonString = dataFile.GetAsText();
-            Json json = new Json();
+            Json json = new();
             Error error = json.Parse(jsonString);
             if (error != Error.Ok)
             {
@@ -150,7 +143,7 @@ public partial class TileRes : Node
             }
         }
         string[] verifiedData = [.. verifiedDataList];
-        List<string> verifiedTileList = new List<string>();
+        List<string> verifiedTileList = [];
         for(int i = 0; i < verifiedData.Length; i++)
         {
             string error = VerifyImage(imageDirectoryPath + "/" + verifiedData[i] + ".png");
@@ -209,29 +202,22 @@ public partial class TileRes : Node
         }
         int mergedSize = MinMergedImageSize(totalVariantCount);
         Image merged = Image.CreateEmpty(mergedSize, mergedSize, false, Image.Format.Rgba8);
-        int currentIndex = 0;
+        Vector2I cursorPosition = Vector2I.Zero;
         for(int i = 0; i < images.Length; i++)
         {
             int variantCount = images[i].GetWidth() / 16;
             for(int j = 0; j < variantCount; j++)
             {
-                merged.BlitRect(images[i], new Rect2I(j * 16, 0, 16, 40), new Vector2I(currentIndex * 16, 0));
-                currentIndex++;
+                merged.BlitRect(images[i], new Rect2I(j * 16, 0, 16, 40), new Vector2I(cursorPosition.X, cursorPosition.Y));
+                cursorPosition.X += 16;
+                if (cursorPosition.X + 16 > mergedSize)
+                {
+                    cursorPosition.Y += 40;
+                    cursorPosition.X = 0;
+                }
             }
         }
         return merged;
-    }
-    public void CreateMainSet(string dataDirectoryPath, string imageDirectoryPath)
-    {
-        string[] verifiedTiles = GetVerifiedTiles(dataDirectoryPath, imageDirectoryPath);
-        Image[] images = new Image[verifiedTiles.Length];
-        for(int i = 0; i < verifiedTiles.Length; i++)
-        {
-            images[i] = GD.Load<Image>(imageDirectoryPath + "/" + verifiedTiles[i]);
-            images[i] = FormatTileImage(images[i]);
-        }
-        Image merged = MergeTileImages(images);
-        //continue from here!!   <--   <--   <--   <--   <--   <--   <--   <--   <--   <--   <--   <--   <--   <--   <--   <--   here
     }
     public override void _Ready()
     {
@@ -239,7 +225,13 @@ public partial class TileRes : Node
         tileDataDirectory = _TileDataDirectory;
         tileImagesDirectory = _TileImagesDirectory;
         string[] verifiedTiles = GetVerifiedTiles(tileDataDirectory, tileImagesDirectory);
-        FormatTileImage(GD.Load<Image>(tileImagesDirectory + "/test.png")).SavePng("res://#img.png");
+        Image[] images = new Image[verifiedTiles.Length];
+        for(int i = 0; i < verifiedTiles.Length; i++)
+        {
+            images[i] = FormatTileImage(GD.Load<Image>(tileImagesDirectory + "/" + verifiedTiles[i] + ".png"));
+        }
+        Image merged = MergeTileImages(images);
+        merged.SavePng("res://merged.png");
         Debug.Info(verifiedTiles);
     }
 }
