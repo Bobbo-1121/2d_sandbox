@@ -31,11 +31,6 @@ public partial class TileRes : Node
     public string _TileImagesDirectory = "res://images/tiles";
     private static string tileDataDirectory;
     private static string tileImagesDirectory;
-    private static TileSet mainSet;
-    public ref TileSet MainSet()
-    {
-        return ref mainSet;
-    }
     public static bool VerifyJsonStringValue(Godot.Collections.Dictionary<string, Variant> json, string key)
     {
         if (json.ContainsKey(key))
@@ -222,16 +217,16 @@ public partial class TileRes : Node
     public override void _Ready()
     {
         base._Ready();
-        tileDataDirectory = _TileDataDirectory;
-        tileImagesDirectory = _TileImagesDirectory;
-        string[] verifiedTiles = GetVerifiedTiles(tileDataDirectory, tileImagesDirectory);
-        Image[] images = new Image[verifiedTiles.Length];
-        for(int i = 0; i < verifiedTiles.Length; i++)
-        {
-            images[i] = FormatTileImage(GD.Load<Image>(tileImagesDirectory + "/" + verifiedTiles[i] + ".png"));
-        }
-        Image merged = MergeTileImages(images);
-        merged.SavePng("res://merged.png");
-        Debug.Info(verifiedTiles);
+        // tileDataDirectory = _TileDataDirectory;
+        // tileImagesDirectory = _TileImagesDirectory;
+        // string[] verifiedTiles = GetVerifiedTiles(tileDataDirectory, tileImagesDirectory);
+        // Image[] images = new Image[verifiedTiles.Length];
+        // for(int i = 0; i < verifiedTiles.Length; i++)
+        // {
+        //     images[i] = FormatTileImage(GD.Load<Image>(tileImagesDirectory + "/" + verifiedTiles[i] + ".png"));
+        // }
+        // Image merged = MergeTileImages(images);
+        // merged.SavePng("res://merged.png");
+        // Debug.Info(verifiedTiles);
     }
 }

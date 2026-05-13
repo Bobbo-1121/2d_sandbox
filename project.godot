@@ -17,7 +17,6 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-_Debug="*uid://b3uoyrxm0sxu"
 _TileRes="*uid://j83y1n214t8m"
 
 [dotnet]
