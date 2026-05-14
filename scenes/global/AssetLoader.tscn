@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ccbvplvdmwhk"]
+
+[ext_resource type="Script" uid="uid://ygl8sr64xy0f" path="res://scenes/global/AssetLoader.cs" id="1_oexjx"]
+
+[node name="AssetLoader" type="Node" unique_id=592832420]
+script = ExtResource("1_oexjx")

@@ -7,7 +7,7 @@ public class JsonReader
     {
         public int value;
     }
-    public static string LoadJsonString(string path)
+    public static string LoadFromPath(string path)
     {
         if (path.Substr(path.Length - 4, 4) != "json")
         {

@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://j83y1n214t8m"]
-
-[ext_resource type="Script" uid="uid://732gwt3eg61s" path="res://global/tile_res/TileRes.cs" id="1_hb2w0"]
-
-[node name="TileRes" type="Node" unique_id=1876476762]
-script = ExtResource("1_hb2w0")

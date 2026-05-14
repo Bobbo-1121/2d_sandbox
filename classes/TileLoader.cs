@@ -4,10 +4,11 @@ using System.Collections.Generic;
 
 public class TileLoader
 {
-    public class LoadResult
+    public class Result
     {
+        public string[] Ids;
+        public int[] VariantCountById;
         public Image Merged;
-        public int[] VariantCounts;
     }
     public static string[] GetVerifiedTiles(string dataDirectoryPath, string imageDirectoryPath, List<string> occupiedIds = null)
     {
@@ -27,7 +28,7 @@ public class TileLoader
         string[] tileDataFiles = dataDirectory.GetFiles();
         for(int i = 0; i < tileDataFiles.Length; i++)
         {
-            Godot.Collections.Dictionary<string, Variant> json = JsonReader.StringToDictionary(JsonReader.LoadJsonString(dataDirectoryPath + "/" + tileDataFiles[i]));
+            Godot.Collections.Dictionary<string, Variant> json = JsonReader.StringToDictionary(JsonReader.LoadFromPath(dataDirectoryPath + "/" + tileDataFiles[i]));
             if (json == null)
             {
                 failed.Add(tileDataFiles[i].Substr(0, tileDataFiles[i].Length - 5));
@@ -90,6 +91,35 @@ public class TileLoader
         Debug.Err("Tile image variant count is too high! How is this even possible bro???");
         return -1;
     }
+    public static Image FormatTileImage(Image input)
+    {
+        if (input.GetWidth() % 16 != 0 || input.GetHeight() != 24)
+        {
+            return null;
+        }
+        int variants = input.GetWidth() / 16;
+        Image result = Image.CreateEmpty(variants * 16, 40, false, Image.Format.Rgba8);
+        for(int i = 0; i < variants; i++)
+        {
+            result.BlitRect(input, new Rect2I(i * 16, 16, 8, 8), new Vector2I(i * 16, 0));
+            result.BlitRect(input, new Rect2I(4 + i * 16, 4, 8, 8), new Vector2I(8 + i * 16, 0));
+            result.BlitRect(input, new Rect2I(i * 16, 4, 16, 8), new Vector2I(i * 16, 8));
+            result.BlitRect(input, new Rect2I(4 + i * 16, 0, 8, 8), new Vector2I(i * 16, 16));
+            result.BlitRect(input, new Rect2I(4 + i * 16, 8, 8, 8), new Vector2I(8 + i * 16, 16));
+            result.BlitRect(input, new Rect2I(i * 16, 0, 16, 16), new Vector2I(i * 16, 24));
+        }
+        return result;
+    }
+    public static Image[] GetFormattedTileImages(string imageDirectoryPath, string[] ids)
+    {
+        Image[] images = new Image[ids.Length];
+        for(int i = 0; i < ids.Length; i++)
+        {
+            images[i] = GD.Load<Image>(imageDirectoryPath + "/" + ids[i] + ".png");
+            images[i] = FormatTileImage(images[i]);
+        }
+        return images;
+    }
     public static Image MergeImages(Image[] images)
     {
         int totalVariantCount = 0;
@@ -117,11 +147,29 @@ public class TileLoader
         }
         return merged;
     }
-    // public static LoadResult Load(string dataDirectoryPath, string imageDirectoryPath, List<string> occupiedIds = null)
-    // {
-    //     if (occupiedIds == null)
-    //     {
-    //         occupiedIds = [];
-    //     }
-    // }
+    public static Result LoadImages(string dataDirectoryPath, string imageDirectoryPath, List<string> occupiedIds = null)
+    {
+        if (occupiedIds == null)
+        {
+            occupiedIds = [];
+        }
+        string[] verifiedIds = GetVerifiedTiles(dataDirectoryPath, imageDirectoryPath, occupiedIds);
+        Image[] images = GetFormattedTileImages(imageDirectoryPath, verifiedIds);
+        Image merged = MergeImages(images);
+        int[] variantCountById = new int[verifiedIds.Length];
+        for(int i = 0; i < verifiedIds.Length; i++)
+        {
+            variantCountById[i] = images[i].GetWidth() / 16;
+        }
+        return new()
+        {
+            Ids = verifiedIds,
+            VariantCountById = variantCountById,
+            Merged = merged
+        };
+    }
+    public static Godot.Collections.Dictionary<string, Variant> LoadData(string dataDirectoryPath, string id)
+    {
+        return JsonReader.StringToDictionary(JsonReader.LoadFromPath(dataDirectoryPath + "/" + id + ".json"));
+    }
 }
