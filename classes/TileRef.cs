@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Tile
+public class TileRef
 {
-    private static Dictionary<string, Tile> tileDictionary = [];
+    private static Dictionary<string, TileRef> tileDictionary = [];
     private static int tileCount = 0;
-    public static Tile GetTileById(string id)
+    public static TileRef GetTileById(string id)
     {
-        bool found = tileDictionary.TryGetValue(id, out Tile tile);
+        bool found = tileDictionary.TryGetValue(id, out TileRef tile);
         return found ? tile : null;
     }
     public static string[] GetTileIds()
@@ -119,7 +119,7 @@ public class Tile
                 variantPositions[j] = cursorPosition;
                 cursorPosition.X += 4;
             }
-            new Tile(tileIds[i])
+            new TileRef(tileIds[i])
             {
                 Name = JsonReader.ReadString(tileData, "name"),
                 VariantCount = variantCountById[i],
@@ -130,7 +130,7 @@ public class Tile
         ResourceSaver.Save(mainTileSet, "res://main_tile_set.tres");
         dataTileSet = GD.Load<TileSet>("res://resources/data_tile_set.tres");
     }
-    public Tile(string id)
+    public TileRef(string id)
     {
         this.Id = id;
         tileDictionary.Add(Id, this);

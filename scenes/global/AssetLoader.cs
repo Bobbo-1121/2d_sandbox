@@ -10,7 +10,7 @@ public partial class AssetLoader : Node
     private void LoadTiles()
     {
         TileLoader.Result result = TileLoader.LoadImages(TileDataDirectoryPath, TileImageDirectoryPath);
-        Tile.Init(result.Ids, result.VariantCountById, result.Merged, TileDataDirectoryPath);
+        TileRef.Init(result.Ids, result.VariantCountById, result.Merged, TileDataDirectoryPath);
     }
     public override void _Ready()
     {
