@@ -33,7 +33,7 @@ public class JsonReader
             return null;
         }
         Variant value = dataDictionary[key];
-        if (value.VariantType != Variant.Type.Int)
+        if (value.VariantType != Variant.Type.Float)
         {
             return null;
         }

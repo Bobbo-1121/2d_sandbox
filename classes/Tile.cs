@@ -22,51 +22,72 @@ public class Tile
         return ids;
     }
     private static TileSet mainTileSet;
+    public static TileSet dataTileSet;
     public static TileSet GetMainTileSet()
     {
         return mainTileSet;
     }
-    public static void CreateTile(TileSetAtlasSource source, Vector2I position)
+    public static void CreateTile(TileSetAtlasSource source, Vector2I position, int zIndex = 0)
     {
         //inner
-        source.CreateTile(position);                                                                                      //top left
-        source.CreateTile(position + new Vector2I(1, 0));                                                                 //top right
-        source.CreateTile(position + new Vector2I(0, 1));                                                                 //bottom left
-        source.CreateTile(position + new Vector2I(1, 1));                                                                 //bottom right
+        source.CreateTile(position);
+        source.GetTileData(position, 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(1, 0));
+        source.GetTileData(position + new Vector2I(1, 0) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(0, 1));
+        source.GetTileData(position + new Vector2I(0, 1) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(1, 1));
+        source.GetTileData(position + new Vector2I(1, 1) , 0).ZIndex = zIndex;
         //fill
-        source.CreateTile(position + new Vector2I(2, 0));                                                                 //top left
-        source.CreateTile(position + new Vector2I(3, 0));                                                                 //top right
-        source.CreateTile(position + new Vector2I(2, 1));                                                                 //bottom left
-        source.CreateTile(position + new Vector2I(3, 1));                                                                 //bottom right
+        source.CreateTile(position + new Vector2I(2, 0));
+        source.GetTileData(position + new Vector2I(2, 0) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(3, 0));
+        source.GetTileData(position + new Vector2I(3, 0) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(2, 1));
+        source.GetTileData(position + new Vector2I(2, 1) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(3, 1));
+        source.GetTileData(position + new Vector2I(3, 1) , 0).ZIndex = zIndex;
         //left
-        source.CreateTile(position + new Vector2I(0, 2), new Vector2I(2, 1));                                             //top
+        source.CreateTile(position + new Vector2I(0, 2), new Vector2I(2, 1));
         source.GetTileData(position + new Vector2I(0, 2), 0).TextureOrigin = new Vector2I(2, 0);
-        source.CreateTile(position + new Vector2I(0, 3), new Vector2I(2, 1));                                             //bottom
+        source.GetTileData(position + new Vector2I(0, 2) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(0, 3), new Vector2I(2, 1));
         source.GetTileData(position + new Vector2I(0, 3), 0).TextureOrigin = new Vector2I(2, 0);
+        source.GetTileData(position + new Vector2I(0, 3) , 0).ZIndex = zIndex;
         //right
-        source.CreateTile(position + new Vector2I(2, 2), new Vector2I(2, 1));                                             //top
+        source.CreateTile(position + new Vector2I(2, 2), new Vector2I(2, 1));
         source.GetTileData(position + new Vector2I(2, 2), 0).TextureOrigin = new Vector2I(-2, 0);
-        source.CreateTile(position + new Vector2I(2, 3), new Vector2I(2, 1));                                             //bottom
+        source.GetTileData(position + new Vector2I(2, 2) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(2, 3), new Vector2I(2, 1));
         source.GetTileData(position + new Vector2I(2, 3), 0).TextureOrigin = new Vector2I(-2, 0);
+        source.GetTileData(position + new Vector2I(2, 2) , 0).ZIndex = zIndex;
         //top
-        source.CreateTile(position + new Vector2I(0, 4), new Vector2I(1, 2));                                             //left
+        source.CreateTile(position + new Vector2I(0, 4), new Vector2I(1, 2));
         source.GetTileData(position + new Vector2I(0, 4), 0).TextureOrigin = new Vector2I(0, 2);
-        source.CreateTile(position + new Vector2I(1, 4), new Vector2I(1, 2));                                             //right
+        source.GetTileData(position + new Vector2I(0, 4) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(1, 4), new Vector2I(1, 2));
         source.GetTileData(position + new Vector2I(1, 4), 0).TextureOrigin = new Vector2I(0, 2);
+        source.GetTileData(position + new Vector2I(1, 4) , 0).ZIndex = zIndex;
         //bottom
-        source.CreateTile(position + new Vector2I(2, 4), new Vector2I(1, 2));                                             //left
+        source.CreateTile(position + new Vector2I(2, 4), new Vector2I(1, 2));
         source.GetTileData(position + new Vector2I(2, 4), 0).TextureOrigin = new Vector2I(0, -2);
-        source.CreateTile(position + new Vector2I(3, 4), new Vector2I(1, 2));                                             //right
+        source.GetTileData(position + new Vector2I(2, 4) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(3, 4), new Vector2I(1, 2));
         source.GetTileData(position + new Vector2I(3, 4), 0).TextureOrigin = new Vector2I(0, -2);
+        source.GetTileData(position + new Vector2I(3, 4) , 0).ZIndex = zIndex;
         //corners
-        source.CreateTile(position + new Vector2I(0, 6), new Vector2I(2, 2));                                             //top left
+        source.CreateTile(position + new Vector2I(0, 6), new Vector2I(2, 2));
         source.GetTileData(position + new Vector2I(0, 6), 0).TextureOrigin = new Vector2I(2, 2);
-        source.CreateTile(position + new Vector2I(2, 6), new Vector2I(2, 2));                                             //top right
+        source.GetTileData(position + new Vector2I(0, 6) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(2, 6), new Vector2I(2, 2));
         source.GetTileData(position + new Vector2I(2, 6), 0).TextureOrigin = new Vector2I(-2, 2);
-        source.CreateTile(position + new Vector2I(0, 8), new Vector2I(2, 2));                                             //bottom left
+        source.GetTileData(position + new Vector2I(2, 6) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(0, 8), new Vector2I(2, 2));
         source.GetTileData(position + new Vector2I(0, 8), 0).TextureOrigin = new Vector2I(2, -2);
-        source.CreateTile(position + new Vector2I(2, 8), new Vector2I(2, 2));                                             //bottom right
+        source.GetTileData(position + new Vector2I(0, 8) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(2, 8), new Vector2I(2, 2));
         source.GetTileData(position + new Vector2I(2, 8), 0).TextureOrigin = new Vector2I(-2, -2);
+        source.GetTileData(position + new Vector2I(2, 8) , 0).ZIndex = zIndex;
     }
     public static void Init(string[] tileIds, int[] variantCountById, Image merged, string dataDirectoryPath)
     {
@@ -83,6 +104,9 @@ public class Tile
         for(int i = 0; i < tileIds.Length; i++)
         {
             Vector2I[] variantPositions = new Vector2I[variantCountById[i]];
+            Godot.Collections.Dictionary<string, Variant> tileData = TileLoader.LoadData(dataDirectoryPath, tileIds[i]);
+            JsonReader.NullInt zIndexNullable = JsonReader.ReadInt(tileData, "z-index");
+            int zIndex = zIndexNullable != null ? zIndexNullable.value : 0;
             for(int j = 0; j < variantCountById[i]; j++)
             {
                 if (cursorPosition.X + 4 > source.GetAtlasGridSize().X)
@@ -90,12 +114,12 @@ public class Tile
                     cursorPosition.X = 0;
                     cursorPosition.Y += 10;
                 }
-                CreateTile(source, cursorPosition);
+                
+                CreateTile(source, cursorPosition, zIndex);
                 variantPositions[j] = cursorPosition;
                 cursorPosition.X += 4;
             }
-            Godot.Collections.Dictionary<string, Variant> tileData = TileLoader.LoadData(dataDirectoryPath, tileIds[i]);
-            Tile newTile = new(tileIds[i])
+            new Tile(tileIds[i])
             {
                 Name = JsonReader.ReadString(tileData, "name"),
                 VariantCount = variantCountById[i],
@@ -104,6 +128,7 @@ public class Tile
         }
         mainTileSet.AddSource(source, 0);
         ResourceSaver.Save(mainTileSet, "res://main_tile_set.tres");
+        dataTileSet = GD.Load<TileSet>("res://resources/data_tile_set.tres");
     }
     public Tile(string id)
     {

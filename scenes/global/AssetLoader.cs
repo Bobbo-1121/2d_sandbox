@@ -16,6 +16,5 @@ public partial class AssetLoader : Node
     {
         base._Ready();
         LoadTiles();
-        Debug.Info(Tile.GetTileIds());
     }
 }

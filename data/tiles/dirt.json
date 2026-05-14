@@ -1,4 +1,5 @@
 {
-    "id":"dirt",
-    "name": "Dirt"
+	"id":"dirt",
+	"name": "Dirt",
+	"z-index": 8
 }

@@ -1,4 +1,5 @@
 {
     "id": "leaves",
-    "name": "Leaves"
+    "name": "Leaves",
+    "z-index": 16
 }
