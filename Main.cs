@@ -3,8 +3,8 @@ using System;
 
 public partial class Main : Node2D
 {
-    private ChunkManager chunkManager = new();
     private int counter = 0;
+    private ChunkManager chunkManager = new();
     private Vector2 playerPos = Vector2.Zero;
     public override void _Ready()
     {
@@ -18,8 +18,14 @@ public partial class Main : Node2D
         counter++;
         if (counter % 10 == 0)
         {
-            playerPos.X += 10;
-            // Debug.Info(playerPos.X.ToString());
+            if (Input.IsPhysicalKeyPressed(Key.D))
+            {
+                playerPos.X += 10;
+            }
+            if (Input.IsPhysicalKeyPressed(Key.A))
+            {
+                playerPos.X += 10;
+            }
             chunkManager.SetPlayerPosition(playerPos);
         }
     }
