@@ -83,7 +83,7 @@ public class TileLoader
         {
             int size = (int)Math.Pow(2, i);
             int occupiedRows = (int)Math.Ceiling(totalVariantCount / (size / 16.0));
-            if (occupiedRows * 40 <= size)
+            if (occupiedRows * 56 <= size)
             {
                 return size;
             }
@@ -98,15 +98,26 @@ public class TileLoader
             return null;
         }
         int variants = input.GetWidth() / 16;
-        Image result = Image.CreateEmpty(variants * 16, 40, false, Image.Format.Rgba8);
+        Image result = Image.CreateEmpty(variants * 16, 56, false, Image.Format.Rgba8);
         for(int i = 0; i < variants; i++)
         {
-            result.BlitRect(input, new Rect2I(i * 16, 16, 8, 8), new Vector2I(i * 16, 0));
-            result.BlitRect(input, new Rect2I(4 + i * 16, 4, 8, 8), new Vector2I(8 + i * 16, 0));
+            //fill
+            result.BlitRect(input, new Rect2I(4 + i * 16, 4, 8, 8), new Vector2I(i * 16, 0));
+            //horizontal sides
             result.BlitRect(input, new Rect2I(i * 16, 4, 16, 8), new Vector2I(i * 16, 8));
+            //top side
             result.BlitRect(input, new Rect2I(4 + i * 16, 0, 8, 8), new Vector2I(i * 16, 16));
+            //bottom side
             result.BlitRect(input, new Rect2I(4 + i * 16, 8, 8, 8), new Vector2I(8 + i * 16, 16));
+            //corners
             result.BlitRect(input, new Rect2I(i * 16, 0, 16, 16), new Vector2I(i * 16, 24));
+            //inner corner middle
+            result.BlitRect(input, new Rect2I(4 + i * 16, 4, 8, 8), new Vector2I(4 + i * 16, 44));
+            //inner corners
+            result.BlitRect(input, new Rect2I(4 + i * 16, 20, 4, 4), new Vector2I(i * 16, 40));
+            result.BlitRect(input, new Rect2I(i * 16, 20, 4, 4), new Vector2I(12 + i * 16, 40));
+            result.BlitRect(input, new Rect2I(4 + i * 16, 16, 4, 4), new Vector2I(i * 16, 52));
+            result.BlitRect(input, new Rect2I(i * 16, 16, 4, 4), new Vector2I(12 + i * 16, 52));
         }
         return result;
     }
@@ -136,11 +147,11 @@ public class TileLoader
             int variantCount = images[i].GetWidth() / 16;
             for(int j = 0; j < variantCount; j++)
             {
-                merged.BlitRect(images[i], new Rect2I(j * 16, 0, 16, 40), new Vector2I(cursorPosition.X, cursorPosition.Y));
+                merged.BlitRect(images[i], new Rect2I(j * 16, 0, 16, 56), new Vector2I(cursorPosition.X, cursorPosition.Y));
                 cursorPosition.X += 16;
                 if (cursorPosition.X + 16 > mergedSize)
                 {
-                    cursorPosition.Y += 40;
+                    cursorPosition.Y += 56;
                     cursorPosition.X = 0;
                 }
             }

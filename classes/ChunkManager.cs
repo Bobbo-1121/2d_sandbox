@@ -1,11 +1,14 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 
 public class ChunkManager
 {
+    public readonly Node2D TileMapContainer;
+    public ChunkManager(Node2D container)
+    {
+        TileMapContainer = container;
+    }
     private Vector2 playerPosition;
     public void SetPlayerPosition(Vector2 position)
     {
@@ -21,6 +24,15 @@ public class ChunkManager
         Update();
     }
     private List<Chunk> chunks = [];
+    private List<ChunkTileMap> tileMaps = [];
+    private void AddChunk()
+    {
+        
+    }
+    public List<Chunk> Chunks()
+    {
+        return chunks;
+    }
     public void Update()
     {
         Debug.Info($"Currently loaded: {chunks.Count}");
@@ -80,5 +92,9 @@ public class ChunkManager
         }
         chunks = newChunks;
         Debug.Info($"Loaded: {newLoaded}, unloaded: {newUnloaded} ()");
+    }
+    public void Draw()
+    {
+        
     }
 }

@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class TileRef
+public class TileRes
 {
-    private static Dictionary<string, TileRef> tileDictionary = [];
+    private static Dictionary<string, TileRes> tileDictionary = [];
     private static int tileCount = 0;
-    public static TileRef GetTileById(string id)
+    public static TileRes GetTileById(string id)
     {
-        bool found = tileDictionary.TryGetValue(id, out TileRef tile);
+        bool found = tileDictionary.TryGetValue(id, out TileRes tile);
         return found ? tile : null;
     }
     public static string[] GetTileIds()
@@ -22,14 +22,13 @@ public class TileRef
         return ids;
     }
     private static TileSet mainTileSet;
-    public static TileSet dataTileSet;
     public static TileSet GetMainTileSet()
     {
         return mainTileSet;
     }
     public static void CreateTile(TileSetAtlasSource source, Vector2I position, int zIndex = 0)
     {
-        //inner
+        //fill
         source.CreateTile(position);
         source.GetTileData(position, 0).ZIndex = zIndex;
         source.CreateTile(position + new Vector2I(1, 0));
@@ -38,15 +37,6 @@ public class TileRef
         source.GetTileData(position + new Vector2I(0, 1) , 0).ZIndex = zIndex;
         source.CreateTile(position + new Vector2I(1, 1));
         source.GetTileData(position + new Vector2I(1, 1) , 0).ZIndex = zIndex;
-        //fill
-        source.CreateTile(position + new Vector2I(2, 0));
-        source.GetTileData(position + new Vector2I(2, 0) , 0).ZIndex = zIndex;
-        source.CreateTile(position + new Vector2I(3, 0));
-        source.GetTileData(position + new Vector2I(3, 0) , 0).ZIndex = zIndex;
-        source.CreateTile(position + new Vector2I(2, 1));
-        source.GetTileData(position + new Vector2I(2, 1) , 0).ZIndex = zIndex;
-        source.CreateTile(position + new Vector2I(3, 1));
-        source.GetTileData(position + new Vector2I(3, 1) , 0).ZIndex = zIndex;
         //left
         source.CreateTile(position + new Vector2I(0, 2), new Vector2I(2, 1));
         source.GetTileData(position + new Vector2I(0, 2), 0).TextureOrigin = new Vector2I(2, 0);
@@ -88,6 +78,20 @@ public class TileRef
         source.CreateTile(position + new Vector2I(2, 8), new Vector2I(2, 2));
         source.GetTileData(position + new Vector2I(2, 8), 0).TextureOrigin = new Vector2I(-2, -2);
         source.GetTileData(position + new Vector2I(2, 8) , 0).ZIndex = zIndex;
+        //inner
+        source.CreateTile(position + new Vector2I(0, 10), new Vector2I(2, 2));
+        source.GetTileData(position + new Vector2I(0, 10), 0).TextureOrigin = new Vector2I(2, 2);
+        source.GetTileData(position + new Vector2I(0, 10) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(2, 10), new Vector2I(2, 2));
+        source.GetTileData(position + new Vector2I(2, 10), 0).TextureOrigin = new Vector2I(-2, 2);
+        source.GetTileData(position + new Vector2I(2, 10) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(0, 12), new Vector2I(2, 2));
+        source.GetTileData(position + new Vector2I(0, 12), 0).TextureOrigin = new Vector2I(2, -2);
+        source.GetTileData(position + new Vector2I(0, 12) , 0).ZIndex = zIndex;
+        source.CreateTile(position + new Vector2I(2, 12), new Vector2I(2, 2));
+        source.GetTileData(position + new Vector2I(2, 12), 0).TextureOrigin = new Vector2I(-2, -2);
+        source.GetTileData(position + new Vector2I(2, 12) , 0).ZIndex = zIndex;
+        
     }
     public static void Init(string[] tileIds, int[] variantCountById, Image merged, string dataDirectoryPath)
     {
@@ -112,14 +116,14 @@ public class TileRef
                 if (cursorPosition.X + 4 > source.GetAtlasGridSize().X)
                 {
                     cursorPosition.X = 0;
-                    cursorPosition.Y += 10;
+                    cursorPosition.Y += 14;
                 }
                 
                 CreateTile(source, cursorPosition, zIndex);
                 variantPositions[j] = cursorPosition;
                 cursorPosition.X += 4;
             }
-            new TileRef(tileIds[i])
+            new TileRes(tileIds[i])
             {
                 Name = JsonReader.ReadString(tileData, "name"),
                 VariantCount = variantCountById[i],
@@ -128,9 +132,8 @@ public class TileRef
         }
         mainTileSet.AddSource(source, 0);
         ResourceSaver.Save(mainTileSet, "res://main_tile_set.tres");
-        dataTileSet = GD.Load<TileSet>("res://resources/data_tile_set.tres");
     }
-    public TileRef(string id)
+    public TileRes(string id)
     {
         this.Id = id;
         tileDictionary.Add(Id, this);
