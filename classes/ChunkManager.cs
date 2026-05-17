@@ -1,14 +1,10 @@
 using Godot;
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 
 public class ChunkManager
 {
-    public readonly Node2D TileMapContainer;
-    public ChunkManager(Node2D container)
-    {
-        TileMapContainer = container;
-    }
     private Vector2 playerPosition;
     public void SetPlayerPosition(Vector2 position)
     {
@@ -24,10 +20,16 @@ public class ChunkManager
         Update();
     }
     private List<Chunk> chunks = [];
-    private List<ChunkTileMap> tileMaps = [];
-    private void AddChunk()
+    public Chunk ChunkAt(Vector2I position)
     {
-        
+        foreach (Chunk chunk in chunks)
+        {
+            if (chunk.Position == position)
+            {
+                return chunk;
+            }
+        }
+        return null;
     }
     public List<Chunk> Chunks()
     {
@@ -39,6 +41,7 @@ public class ChunkManager
         int newLoaded = 0;
         int newUnloaded = 0;
         List<Chunk> newChunks = [.. chunks];
+        List<Chunk> justAdded = [];
         List<Vector2I> shouldBeLoaded = [];
         for (int i = -loadingDistance; i < loadingDistance; i++)
         {
@@ -63,6 +66,7 @@ public class ChunkManager
             }
             if (!shouldStayLoaded)
             {
+                chunk.Delete();
                 newChunks.Remove(chunk);
                 newUnloaded++;
             }
@@ -84,17 +88,29 @@ public class ChunkManager
                     }
                     if (!alreadyLoaded)
                     {
-                        newChunks.Add(new Chunk(new Vector2I(i, j) + (Vector2I)(playerPosition / 16.0f)));
+                        Chunk chunk = Chunk.MakeTestChunk(new Vector2I(i, j) + (Vector2I)(playerPosition / 16.0f));
+                        newChunks.Add(chunk);
+                        justAdded.Add(chunk);
                         newLoaded++;
                     }
                 }
             }
         }
         chunks = newChunks;
+        foreach (Chunk chunk in justAdded)
+        {
+            chunk.AdjacentChunks[0] = ChunkAt(chunk.Position + Vector2I.Up);
+            chunk.AdjacentChunks[1] = ChunkAt(chunk.Position + Vector2I.Right);
+            chunk.AdjacentChunks[2] = ChunkAt(chunk.Position + Vector2I.Down);
+            chunk.AdjacentChunks[3] = ChunkAt(chunk.Position + Vector2I.Left);
+        }
         Debug.Info($"Loaded: {newLoaded}, unloaded: {newUnloaded} ()");
     }
     public void Draw()
     {
-        
+        foreach (Chunk chunk in chunks)
+        {
+            chunk.Draw();
+        }
     }
 }

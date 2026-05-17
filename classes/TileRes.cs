@@ -21,6 +21,74 @@ public class TileRes
         }
         return ids;
     }
+    public enum TileForm
+    {
+        Fill,
+        HorizontalSide,
+        VericalSide,
+        Corner,
+        Inner
+    }
+    public enum TileQuarter
+    {
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight
+    }
+    public Vector2I CornerToVector2I(TileQuarter corner)
+    {
+        switch (corner)
+        {
+            case TileQuarter.TopLeft:
+                return new(0, 0);
+            case TileQuarter.TopRight:
+                return new(1, 0);
+            case TileQuarter.BottomLeft:
+                return new(0, 1);
+            case TileQuarter.BottomRight:
+                return new(1, 1);
+            default:
+                return new(0, 0);
+        }
+    }
+    public Vector2I GetTileSetCoords(TileQuarter corner, TileForm form, int variant = 0)
+    {
+        if (form == TileForm.Fill)
+        {
+            return TileSetPositions[variant] + CornerToVector2I(corner);
+        }
+        else if (form == TileForm.HorizontalSide)
+        {
+            if (corner == TileQuarter.TopLeft || corner == TileQuarter.BottomLeft)
+            {
+                return TileSetPositions[variant] + CornerToVector2I(corner) + new Vector2I(0, 2);
+            }
+            else
+            {
+                return TileSetPositions[variant] + CornerToVector2I(corner) + new Vector2I(1, 2);
+            }
+        }
+        else if (form == TileForm.VericalSide)
+        {
+            if (corner == TileQuarter.TopLeft || corner == TileQuarter.TopRight)
+            {
+                return TileSetPositions[variant] + CornerToVector2I(corner) + new Vector2I(0, 4);
+            }
+            else
+            {
+                return TileSetPositions[variant] + CornerToVector2I(corner) + new Vector2I(2, 3);
+            }
+        }
+        else if (form == TileForm.Corner)
+        {
+            return TileSetPositions[variant] + CornerToVector2I(corner) * 2 + new Vector2I(0, 6);
+        }
+        else
+        {
+            return TileSetPositions[variant] + CornerToVector2I(corner) * 2 + new Vector2I(0, 10);
+        }
+    }
     private static TileSet mainTileSet;
     public static TileSet GetMainTileSet()
     {
