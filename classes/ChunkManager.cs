@@ -9,7 +9,7 @@ public class ChunkManager
     public void SetPlayerPosition(Vector2 position)
     {
         bool update = playerPosition != position;
-        playerPosition = position;
+        playerPosition = position - new Vector2I(8, 8);
         Update();
     }
     private int loadingDistance;

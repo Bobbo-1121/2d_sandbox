@@ -1,14 +1,13 @@
 [gd_scene format=4 uid="uid://bwu233k8xt41q"]
 
 [ext_resource type="Script" uid="uid://ppm4s2o3fr14" path="res://Main.cs" id="1_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://b2vgj05d8x6ej" path="res://editor_icons/GlobalScript.svg" id="2_h2yge"]
 [ext_resource type="TileSet" path="res://main_tile_set.tres" id="3_h2yge"]
 
-[node name="Main" type="Node2D" unique_id=327471949]
+[node name="Main" type="Node2D" unique_id=327471949 node_paths=PackedStringArray("PlayerPositionNode")]
 scale = Vector2(4, 4)
 script = ExtResource("1_0xm2m")
-
-[node name="Output" type="Sprite2D" parent="." unique_id=1949198710]
-position = Vector2(115.25, 68)
+PlayerPositionNode = NodePath("Output")
 
 [node name="TileMapLayer2" type="TileMapLayer" parent="." unique_id=88703381]
 tile_map_data = PackedByteArray("AAAFAAEAAAAKAAgAAAAEAAEAAAAKAAQAAAADAAEAAAAHAAQAAAACAAEAAAAGAAQAAAABAAEAAAADAAQAAAAAAAEAAAAAAAgAAAAAAAAAAAAAAAYAAAABAAAAAAABAAQAAAACAAAAAAAEAAQAAAADAAAAAAAFAAQAAAAEAAAAAAAIAAQAAAAFAAAAAAAKAAYAAAAGAAEAAAAMAAgAAAAGAAAAAAAMAAYAAAAHAAAAAAAOAAYAAAAHAAEAAAAOAAgAAAAFAP//AAAOAAgAAAAFAP7/AAAOAAYAAAAEAP7/AAAMAAYAAAAEAP//AAAMAAgAAAAIAAEAAAAIAAgAAAAIAAAAAAAIAAYAAAAJAAAAAAAKAAYAAAAJAAEAAAAKAAgAAAAHAP//AAAKAAgAAAAGAP//AAAIAAgAAAAGAP7/AAAIAAYAAAAHAP7/AAAKAAYAAAA=")
@@ -17,3 +16,8 @@ tile_set = ExtResource("3_h2yge")
 rendering_quadrant_size = 32
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=254501804]
+zoom = Vector2(0.25, 0.25)
+
+[node name="Output" type="Sprite2D" parent="." unique_id=1949198710]
+position = Vector2(115.25, 68)
+texture = ExtResource("2_h2yge")

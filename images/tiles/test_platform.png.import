@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://dpowradvb8ii8"
+path="res://.godot/imported/test_platform.png-69deb10a335f4588b348dc5b4d62843a.image"
+
+[deps]
+
+source_file="res://images/tiles/test_platform.png"
+dest_files=["res://.godot/imported/test_platform.png-69deb10a335f4588b348dc5b4d62843a.image"]
+
+[params]
+

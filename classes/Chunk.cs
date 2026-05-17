@@ -156,7 +156,7 @@ public class Chunk
             }
         }
     }
-    public static Chunk MakeTestChunk(Vector2I position, string id = "dirt")
+    public static Chunk MakeTestChunk(Vector2I position, string id = "test_platform")
     {
         Chunk chunk = new(position);
         for(int i = 0; i < 16; i++)
